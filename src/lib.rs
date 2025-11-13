@@ -85,6 +85,10 @@ pub fn set_controller_mode<F: embedded_can::Frame>(
     CanMessageWithId::set_controller_mode(node_id, control_mode, input_mode).to_frame()
 }
 
+/// # Units
+/// position: rev
+/// vel_feedforward: 0.001 rev/s (default, configurable)
+/// torque_feedforward: 0.001 Nm (default, configurable)
 pub fn set_input_pos<F: embedded_can::Frame>(
     node_id: u8,
     position: f32,
@@ -106,10 +110,15 @@ pub fn set_input_vel<F: embedded_can::Frame>(
     CanMessageWithId::set_input_vel(node_id, velocity, torque_feedforward).to_frame()
 }
 
+/// # Units
+/// torque: Nm
 pub fn set_input_torque<F: embedded_can::Frame>(node_id: u8, torque: f32) -> F {
     CanMessageWithId::set_input_torque(node_id, torque).to_frame()
 }
 
+/// # Units
+/// velocity_limit: rev/s
+/// current_limit: A
 pub fn set_limits<F: embedded_can::Frame>(
     node_id: u8,
     velocity_limit: f32,
@@ -118,10 +127,15 @@ pub fn set_limits<F: embedded_can::Frame>(
     CanMessageWithId::set_limits(node_id, velocity_limit, current_limit).to_frame()
 }
 
+/// # Units
+/// traj_vel_limit: rev/s
 pub fn set_traj_vel_limit<F: embedded_can::Frame>(node_id: u8, traj_vel_limit: f32) -> F {
     CanMessageWithId::set_traj_vel_limit(node_id, traj_vel_limit).to_frame()
 }
 
+/// # Units
+/// traj_accel_limit: rev/s²
+/// traj_decel_limit: rev/s²
 pub fn set_traj_accel_limits<F: embedded_can::Frame>(
     node_id: u8,
     traj_accel_limit: f32,
@@ -130,8 +144,33 @@ pub fn set_traj_accel_limits<F: embedded_can::Frame>(
     CanMessageWithId::set_traj_accel_limits(node_id, traj_accel_limit, traj_decel_limit).to_frame()
 }
 
+/// # Units
+/// traj_inertia: Nm/(rev/s²)
 pub fn set_traj_inertia<F: embedded_can::Frame>(node_id: u8, traj_inertia: f32) -> F {
     CanMessageWithId::set_traj_inertia(node_id, traj_inertia).to_frame()
+}
+
+/// # Units
+/// position: rev
+pub fn set_absolute_position<F: embedded_can::Frame>(node_id: u8, position: f32) -> F {
+    CanMessageWithId::set_absolute_position(node_id, position).to_frame()
+}
+
+/// # Units
+/// pos_gain: (rev/s)/rev
+pub fn set_pos_gain<F: embedded_can::Frame>(node_id: u8, pos_gain: f32) -> F {
+    CanMessageWithId::set_pos_gain(node_id, pos_gain).to_frame()
+}
+
+/// # Units
+/// vel_gain: Nm/(rev/s)
+/// vel_integrator_gain: Nm/rev
+pub fn set_vel_gains<F: embedded_can::Frame>(
+    node_id: u8,
+    vel_gain: f32,
+    vel_integrator_gain: f32,
+) -> F {
+    CanMessageWithId::set_vel_gains(node_id, vel_gain, vel_integrator_gain).to_frame()
 }
 
 pub fn read_config<F: embedded_can::Frame>(node_id: u8, endpoint_id: u16) -> F {
@@ -150,4 +189,9 @@ pub fn write_config<F: embedded_can::Frame>(
     value: ConfigValue,
 ) -> F {
     CanMessageWithId::rx_sdo(node_id, messages::SdoOpcode::Write, endpoint_id, value).to_frame()
+}
+
+/// Puts the ODrive into DFU mode for firmware updates. Equivalent to calling `enter_dfu_mode2()`.
+pub fn enter_dfu_mode<F: embedded_can::Frame>(node_id: u8) -> F {
+    CanMessageWithId::enter_dfu_mode(node_id).to_frame()
 }
