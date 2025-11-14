@@ -1,7 +1,13 @@
 [package]
 name = "odrive-messages"
+authors = ["Rao Zvorovski <rao.zvorovski@codeduf.eu>"]
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
+description = "Unofficial ODrive CAN bus message encoding and decoding"
+repository = "https://github.com/raoz/odrive-messages"
+keywords = ["odrive", "can", "motor", "brushless", "cansimple"]
+categories = ["encoding", "science::robotics"]
 
 [dependencies]
 deku = "0.20"
