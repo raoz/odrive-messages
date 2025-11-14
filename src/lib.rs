@@ -12,6 +12,7 @@ pub fn estop<F: embedded_can::Frame>(node_id: u8) -> F {
     CanMessageWithId::estop(node_id).to_frame()
 }
 
+/// Reboots the ODrive node with the specified reboot action.
 pub fn reboot<F: embedded_can::Frame>(node_id: u8, reboot_action: RebootAction) -> F {
     CanMessageWithId::reboot(node_id, reboot_action).to_frame()
 }

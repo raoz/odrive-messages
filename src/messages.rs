@@ -63,7 +63,9 @@ pub enum CanMessage {
     },
     #[deku(id = "0x09")]
     GetEncoderEstimates {
+        /// Unit: rev
         pos_estimate: f32,
+        /// Unit: rev/s
         vel_estimate: f32,
     },
     #[deku(id = "0x0B")]
@@ -73,64 +75,106 @@ pub enum CanMessage {
     },
     #[deku(id = "0x0C")]
     SetInputPos {
+        /// Unit: rev
         input_pos: f32,
+        /// Unit: 0.001 rev/s (default, configurable)
         vel_ff: i16,
+        /// Unit: 0.001 Nm (default, configurable)
         torque_ff: i16,
     },
     #[deku(id = "0x0D")]
     SetInputVel {
+        /// Unit: rev/s
         input_vel: f32,
+        /// Unit: Nm
         input_torque_ff: f32,
     },
     #[deku(id = "0x0E")]
-    SetInputTorque { input_torque: f32 },
+    SetInputTorque {
+        /// Unit: Nm
+        input_torque: f32,
+    },
     #[deku(id = "0x0F")]
     SetLimits {
+        /// Unit: rev/s
         velocity_limit: f32,
+        /// Unit: A
         current_limit: f32,
     },
     #[deku(id = "0x11")]
-    SetTrajVelLimit { traj_vel_limit: f32 },
+    SetTrajVelLimit {
+        /// Unit: rev/s
+        traj_vel_limit: f32,
+    },
     #[deku(id = "0x12")]
     SetTrajAccelLimits {
+        /// Unit: rev/s²
         traj_accel_limit: f32,
+        /// Unit: rev/s²
         traj_decel_limit: f32,
     },
     #[deku(id = "0x13")]
-    SetTrajInertia { traj_inertia: f32 },
+    SetTrajInertia {
+        /// Unit: Nm/(rev/s²)
+        traj_inertia: f32,
+    },
     #[deku(id = "0x14")]
-    GetIq { iq_setpoint: f32, iq_measured: f32 },
+    GetIq {
+        /// Unit: A
+        iq_setpoint: f32,
+        /// Unit: A
+        iq_measured: f32,
+    },
     #[deku(id = "0x15")]
     GetTemperature {
+        /// Unit: °C
         fet_temperature: f32,
+        /// Unit: °C
         motor_temperature: f32,
     },
     #[deku(id = "0x16")]
     Reboot { action: RebootAction },
     #[deku(id = "0x17")]
-    GetBusVoltageCurrent { bus_voltage: f32, bus_current: f32 },
+    GetBusVoltageCurrent {
+        /// Unit: V
+        bus_voltage: f32,
+        /// Unit: A
+        bus_current: f32,
+    },
     #[deku(id = "0x18")]
     ClearErrors {
         #[deku(bits = 8)]
         identify: bool,
     },
     #[deku(id = "0x19")]
-    SetAbsolutePosition { position: f32 },
+    SetAbsolutePosition {
+        /// Unit: rev
+        position: f32,
+    },
     #[deku(id = "0x1A")]
-    SetPosGain { pos_gain: f32 },
+    SetPosGain {
+        /// Unit: (rev/s)/rev
+        pos_gain: f32,
+    },
     #[deku(id = "0x1B")]
     SetVelGains {
+        /// Unit: Nm/(rev/s)
         vel_gain: f32,
+        /// Unit: Nm/rev
         vel_integrator_gain: f32,
     },
     #[deku(id = "0x1C")]
     GetTorques {
+        /// Unit: Nm
         torque_target: f32,
+        /// Unit: Nm
         torque_estimate: f32,
     },
     #[deku(id = "0x1D")]
     GetPowers {
+        /// Unit: W
         electrical_power: f32,
+        /// Unit: W
         mechanical_power: f32,
     },
     #[deku(id = "0x1F")]
