@@ -638,11 +638,11 @@ mod tests {
 
     #[test]
     pub fn test_docs_example_read_vel_integrator_limit() {
-        let msg = CanMessageWithId::rx_sdo(0, SdoOpcode::Read, 0x0182, ConfigValue::Float(0.0));
+        let msg = CanMessageWithId::rx_sdo(0, SdoOpcode::Read, 0x0182, ConfigValue::Empty);
         let id = msg.id().as_raw();
         let data = msg.data();
         assert_eq!(id, 0x04);
-        assert_eq!(data, vec![0x00, 0x82, 0x01, 0x01]); // read has no data
+        assert_eq!(data, vec![0x00, 0x82, 0x01, 0x00]); // read has no data
         assert_eq!(msg, CanMessageWithId::from_id_and_data(id, &data).unwrap());
     }
 
@@ -685,7 +685,7 @@ mod tests {
         let id = msg.id().as_raw();
         let data = msg.data();
         assert_eq!(id, 0x04);
-        assert_eq!(data, vec![0x01, 0x82, 0x01, 0x01, 0xb6, 0xf3, 0x9d, 0x3f]); // the docs have an error here, the first byte should be 0x01 for write
+        assert_eq!(data, vec![0x01, 0x82, 0x01, 0x00, 0xb6, 0xf3, 0x9d, 0x3f]); // the docs have an error here, the first byte should be 0x01 for write
         assert_eq!(msg, CanMessageWithId::from_id_and_data(id, &data).unwrap());
     }
 }
