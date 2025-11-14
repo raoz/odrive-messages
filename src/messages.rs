@@ -210,7 +210,7 @@ impl CanMessageWithId {
 
     pub fn from_frame<F: embedded_can::Frame>(frame: &F) -> Result<Self, DekuError> {
         let id = match frame.id() {
-            Id::Standard(std_id) => std_id.as_raw() as u16,
+            Id::Standard(std_id) => std_id.as_raw(),
             _ => unreachable!(), // ODrive uses standard IDs only
         };
         let data = frame.data();
