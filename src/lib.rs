@@ -1,3 +1,5 @@
+use deku::DekuError;
+
 use crate::{
     messages::{AxisState, CanMessageWithId, ControlMode, InputMode, RebootAction},
     sdo::ConfigValue,
@@ -7,6 +9,10 @@ pub mod messages;
 pub mod sdo;
 
 pub const UNADDRESSED_NODE_ID: u8 = 0x3f;
+
+pub fn parse_frame<F: embedded_can::Frame>(frame: &F) -> Result<CanMessageWithId, DekuError> {
+    CanMessageWithId::from_frame(frame)
+}
 
 pub fn estop<F: embedded_can::Frame>(node_id: u8) -> F {
     CanMessageWithId::estop(node_id).to_frame()
