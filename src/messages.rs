@@ -594,7 +594,7 @@ pub enum RebootAction {
 #[deku(id_type = "u8")]
 pub enum ControlMode {
     VoltageControl = 0,
-    CurrentControl = 1,
+    TorqueControl = 1,
     VelocityControl = 2,
     PositionControl = 3,
 }
