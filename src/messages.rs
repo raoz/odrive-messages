@@ -70,7 +70,9 @@ pub enum CanMessage {
     },
     #[deku(id = "0x0B")]
     SetControllerMode {
+        #[deku(pad_bytes_after = "3")]
         control_mode: ControlMode,
+        #[deku(pad_bytes_after = "3")]
         input_mode: InputMode,
     },
     #[deku(id = "0x0C")]
@@ -616,7 +618,7 @@ pub enum InputMode {
 
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, DekuWrite, DekuRead)]
-#[deku(id_type = "u8")]
+#[deku(id_type = "u8", endian = "little")]
 pub enum SdoOpcode {
     Read = 0,
     Write = 1,
@@ -687,5 +689,14 @@ mod tests {
         assert_eq!(id, 0x04);
         assert_eq!(data, vec![0x01, 0x82, 0x01, 0x00, 0xb6, 0xf3, 0x9d, 0x3f]); // the docs have an error here, the first byte should be 0x01 for write
         assert_eq!(msg, CanMessageWithId::from_id_and_data(id, &data).unwrap());
+    }
+
+    #[test]
+    pub fn test_set_control_mode() {
+        let msg = CanMessageWithId::set_controller_mode(2, ControlMode::TorqueControl, InputMode::Passthrough);
+        let id = msg.id().as_raw();
+        let data = msg.data();
+        assert_eq!(id, 2<<5 | 0x0B);
+        assert_eq!(data, vec![0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00])
     }
 }

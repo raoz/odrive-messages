@@ -1,7 +1,7 @@
 [package]
 name = "odrive-messages"
 authors = ["Rao Zvorovski <rao.zvorovski@codeduf.eu>"]
-version = "0.2.0"
+version = "0.2.1"
 edition = "2024"
 license = "MIT"
 description = "Unofficial ODrive CAN bus message encoding and decoding"
