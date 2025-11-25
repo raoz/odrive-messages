@@ -19,6 +19,7 @@ pub enum CanMessage {
     },
     #[deku(id = "0x01")]
     Heartbeat {
+        #[deku(endian = "little")]
         axis_error: u32,
         axis_state: AxisState,
         procedure_result: u8,
@@ -29,12 +30,15 @@ pub enum CanMessage {
     Estop,
     #[deku(id = "0x03")]
     GetError {
+        #[deku(endian = "little")]
         active_errors: u32,
+        #[deku(endian = "little")]
         disarm_reason: u32,
     },
     #[deku(id = "0x04")]
     RxSdo {
         opcode: SdoOpcode,
+        #[deku(endian = "little")]
         endpoint_id: u16,
         reserved: u8,
         #[deku(read_all)]
@@ -43,6 +47,7 @@ pub enum CanMessage {
     #[deku(id = "0x05")]
     TxSdo {
         reserved0: u8,
+        #[deku(endian = "little")]
         endpoint_id: u16,
         reserved1: u8,
         #[deku(read_all)]
@@ -64,8 +69,10 @@ pub enum CanMessage {
     #[deku(id = "0x09")]
     GetEncoderEstimates {
         /// Unit: rev
+        #[deku(endian = "little")]
         pos_estimate: f32,
         /// Unit: rev/s
+        #[deku(endian = "little")]
         vel_estimate: f32,
     },
     #[deku(id = "0x0B")]
@@ -78,60 +85,76 @@ pub enum CanMessage {
     #[deku(id = "0x0C")]
     SetInputPos {
         /// Unit: rev
+        #[deku(endian = "little")]
         input_pos: f32,
         /// Unit: 0.001 rev/s (default, configurable)
+        #[deku(endian = "little")]
         vel_ff: i16,
         /// Unit: 0.001 Nm (default, configurable)
+        #[deku(endian = "little")]
         torque_ff: i16,
     },
     #[deku(id = "0x0D")]
     SetInputVel {
         /// Unit: rev/s
+        #[deku(endian = "little")]
         input_vel: f32,
         /// Unit: Nm
+        #[deku(endian = "little")]
         input_torque_ff: f32,
     },
     #[deku(id = "0x0E")]
     SetInputTorque {
         /// Unit: Nm
+        #[deku(endian = "little")]
         input_torque: f32,
     },
     #[deku(id = "0x0F")]
     SetLimits {
         /// Unit: rev/s
+        #[deku(endian = "little")]
         velocity_limit: f32,
         /// Unit: A
+        #[deku(endian = "little")]
         current_limit: f32,
     },
     #[deku(id = "0x11")]
     SetTrajVelLimit {
         /// Unit: rev/s
+        #[deku(endian = "little")]
         traj_vel_limit: f32,
     },
     #[deku(id = "0x12")]
     SetTrajAccelLimits {
         /// Unit: rev/s²
+        #[deku(endian = "little")]
         traj_accel_limit: f32,
         /// Unit: rev/s²
+        #[deku(endian = "little")]
         traj_decel_limit: f32,
     },
     #[deku(id = "0x13")]
     SetTrajInertia {
         /// Unit: Nm/(rev/s²)
+        #[deku(endian = "little")]
         traj_inertia: f32,
     },
     #[deku(id = "0x14")]
     GetIq {
         /// Unit: A
+        #[deku(endian = "little")]
         iq_setpoint: f32,
         /// Unit: A
+        #[deku(endian = "little")]
         iq_measured: f32,
     },
     #[deku(id = "0x15")]
     GetTemperature {
         /// Unit: °C
+        #[deku(endian = "little")]
         fet_temperature: f32,
         /// Unit: °C
+        #[deku(endian = "little")]
         motor_temperature: f32,
     },
     #[deku(id = "0x16")]
@@ -139,8 +162,10 @@ pub enum CanMessage {
     #[deku(id = "0x17")]
     GetBusVoltageCurrent {
         /// Unit: V
+        #[deku(endian = "little")]
         bus_voltage: f32,
         /// Unit: A
+        #[deku(endian = "little")]
         bus_current: f32,
     },
     #[deku(id = "0x18")]
@@ -151,32 +176,40 @@ pub enum CanMessage {
     #[deku(id = "0x19")]
     SetAbsolutePosition {
         /// Unit: rev
+        #[deku(endian = "little")]
         position: f32,
     },
     #[deku(id = "0x1A")]
     SetPosGain {
         /// Unit: (rev/s)/rev
+        #[deku(endian = "little")]
         pos_gain: f32,
     },
     #[deku(id = "0x1B")]
     SetVelGains {
         /// Unit: Nm/(rev/s)
+        #[deku(endian = "little")]
         vel_gain: f32,
         /// Unit: Nm/rev
+        #[deku(endian = "little")]
         vel_integrator_gain: f32,
     },
     #[deku(id = "0x1C")]
     GetTorques {
         /// Unit: Nm
+        #[deku(endian = "little")]
         torque_target: f32,
         /// Unit: Nm
+        #[deku(endian = "little")]
         torque_estimate: f32,
     },
     #[deku(id = "0x1D")]
     GetPowers {
         /// Unit: W
+        #[deku(endian = "little")]
         electrical_power: f32,
         /// Unit: W
+        #[deku(endian = "little")]
         mechanical_power: f32,
     },
     #[deku(id = "0x1F")]
@@ -693,10 +726,14 @@ mod tests {
 
     #[test]
     pub fn test_set_control_mode() {
-        let msg = CanMessageWithId::set_controller_mode(2, ControlMode::TorqueControl, InputMode::Passthrough);
+        let msg = CanMessageWithId::set_controller_mode(
+            2,
+            ControlMode::TorqueControl,
+            InputMode::Passthrough,
+        );
         let id = msg.id().as_raw();
         let data = msg.data();
-        assert_eq!(id, 2<<5 | 0x0B);
+        assert_eq!(id, 2 << 5 | 0x0B);
         assert_eq!(data, vec![0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00])
     }
 }
