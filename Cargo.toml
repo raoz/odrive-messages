@@ -10,5 +10,5 @@ keywords = ["odrive", "can", "motor", "brushless", "cansimple"]
 categories = ["encoding", "science::robotics"]
 
 [dependencies]
-deku = "0.20"
+deku = { version = "0.20", default-features = false, features = ["alloc", "bits"] }
 embedded-can = "0.4.1"
