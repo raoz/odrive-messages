@@ -1,3 +1,4 @@
+use alloc::vec::Vec;
 use deku::prelude::*;
 use embedded_can::{Id, StandardId};
 
@@ -587,8 +588,8 @@ pub enum AxisState {
     HarmonicCalibrationCommutation = 16,
 }
 
-impl std::fmt::Display for AxisState {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for AxisState {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             AxisState::Undefined => write!(f, "UNDEFINED"),
             AxisState::Idle => write!(f, "IDLE"),
@@ -660,6 +661,7 @@ pub enum SdoOpcode {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use alloc::vec;
 
     #[test]
     pub fn test_set_closed_loop_control() {

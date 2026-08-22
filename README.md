@@ -1,6 +1,6 @@
 # odrive-messages
 
-This is an unofficial Rust implemenation of the [ODrive](https://odriverobotics.com/) [CAN protocol](https://docs.odriverobotics.com/v/latest/manual/can-protocol.html) messages. This is a low-level crate, which only handles decoding and encoding the CAN Frames and does not handle sending them or waiting for responses. A higher-level crate using this one for ergonomic management of ODrives is envisioned.
+This is an unofficial Rust implementation of the [ODrive](https://odriverobotics.com/) [CAN protocol](https://docs.odriverobotics.com/v/latest/manual/can-protocol.html) messages. This is a low-level crate, which only handles decoding and encoding the CAN Frames and does not handle sending them or waiting for responses. A higher-level crate using this one for ergonomic management of ODrives is envisioned.
 
 ## Limitations
 
@@ -10,7 +10,7 @@ This crate is not yet finished. While all the ODrive CAN protocol messages are s
 - [X] Decode and encode any ODrive CAN message
 - [ ] Convert ODrive error codes into human-readable errors
 - [ ] Implement proper error handling
-- [ ] Support `no-std`
+- [X] Support `no-std` (with `alloc`)
 - [ ] Provide better facilities for working with the `RxSdo` and `TxSdo` messages
 
 ## Usage
