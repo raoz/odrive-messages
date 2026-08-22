@@ -1,3 +1,7 @@
+#![no_std]
+
+extern crate alloc;
+
 use deku::DekuError;
 
 use crate::{

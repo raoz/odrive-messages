@@ -1,3 +1,5 @@
+use alloc::{format, string::String, vec, vec::Vec};
+
 #[derive(Debug, Clone)]
 pub enum ConfigValue {
     Float(f32),
